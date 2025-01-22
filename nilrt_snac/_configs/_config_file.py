@@ -1,10 +1,10 @@
 """Helper class to read/write and update configuration files."""
 
-import grp
-import os
 import pathlib
-import pwd
 import re
+import os
+import grp
+import pwd
 from typing import Union
 
 from nilrt_snac import logger
@@ -83,12 +83,16 @@ class _ConfigFile:
         """
         return bool(re.search(key, self._config))
     
- 
-class EqualsDelimitedConfigFile(_ConfigFile):
     def get(self, key: str) -> str:
+        """Get the value of the given key in the configuration file.
+
+        Args: key: RE pattern to search for in the configuration file.
+
+        Returns: The value of the key if found, empty string otherwise.
+        """
         value_pattern = rf"{key}\s*=\s*(.*)"
         match = re.search(value_pattern, self._config)
-        if match:
-            return match.group(1).strip()
+        if match and match.lastindex >= 1:
+            return match.group(1)
         else:
             return ""
