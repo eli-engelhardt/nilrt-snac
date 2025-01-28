@@ -51,7 +51,7 @@ class _SyslogConfig(_BaseConfig):
             )
             last_entry = result.stdout.strip().split('\n')[-1]
             if test_message not in last_entry:
-                logger.error(f"ERROR: Test log entry not found.")
+                logger.error(f"ERROR: Failed logging verification.")
                 valid = False
         
       
